@@ -1,2 +1,8 @@
 # Git ignore for ptest project
+
+# Sublime text
+
+*.sublime*
+
+# Python
 python/*.py[cod]
