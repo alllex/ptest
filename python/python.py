@@ -23,17 +23,16 @@ class Addition(Test):
     def subject(): return 'Python 2.7.6'
 
     @staticmethod
+    def object(): return 'Python addition operator'
+
+    @staticmethod
     def test((a, b)):
         return a + b
 
-
-class AdditionOfInts(Addition):
+class AdditionOfInt(Addition):
 
     @staticmethod
     def name(): return 'Addition of ints'
-
-    @staticmethod
-    def object(): return 'Int addition'
 
     @staticmethod
     def params():
@@ -45,11 +44,45 @@ class AdditionOfInts(Addition):
             (42, 101),
             (1<<10,1<<20),
             ((1<<10) - 1,(1<<20) - 1),
+            (2**30, 2**30 - 1),
             (2702765, 199360981)
         ]
         return map(lambda (a, b): (int(a), int(b)), data)
 
-        
+class AdditionOfLong(Addition):
+
+    @staticmethod
+    def name(): return 'Addition of longs'
+
+    @staticmethod
+    def params():
+        data = [
+            (1, 0),
+            (1, 1),
+            (3, -5),
+            (1<<10,1<<20),
+            (2702765, 199360981),
+            (2**62, 2**62 - 1),
+            (2**42, 2**42 - 2**21),
+        ]
+        return map(lambda (a, b): (long(a), long(b)), data)
+
+class AdditionOfBigInt(Addition):
+
+    @staticmethod
+    def name(): return 'Addition of big ints'
+
+    @staticmethod
+    def params():
+        data = [
+            (1, 0),
+            (1, 1),
+            (3, -5),
+            (2**127, 3**42),
+            (7**70 - 2**20, 5**80 - 2**21),
+        ]
+        return map(lambda (a, b): (long(a), long(b)), data)
+
 class Loop(Test):
 
     @staticmethod
@@ -126,27 +159,27 @@ class Factorial(Test):
 
 def benchmark(test, repeat=1, number=1):
     from timeit import repeat as benchmarker
-    setup = 'from __main__ import %s' % test #'; '.join(setups)
-    testf = test + '.test'
-    params = eval(test + '.params()')
+    test_name = test.__name__.split('.')[-1]
+    print(test_name)
+    setup = 'from __main__ import %s' % test_name #'; '.join(setups)
+    testf = test_name + '.test'
+    params = eval(test_name + '.params()')
     for param in params:
         sample = '%s(%s)' % (testf, param)
         best_time = min(benchmarker(sample, setup=setup, repeat=repeat, number=number))
-        yield (test, best_time, number, param)
-
+        yield (test.name(), best_time, number, param)
 
 def log_benchmark(logname, bench_args):
     with open(logname, 'a') as log:
         timed = benchmark(*bench_args)
         for t, bt, n, p in timed:
-            test_name = '{:^15}'.format(t)
+            test_name = '{:^20}'.format(t)
             best_time = '  {:0.5f}s  '.format(bt)
             runs_count = '{:^15}'.format(n)
             parameter = '{:^15}'.format(p)
             to_log = '[%s] runs of [%s] took at best [%s] with parameter = [%s]\n' % (runs_count, test_name, best_time, parameter)
             log.write(to_log)
             print(to_log)
-
 
 def now():
     from time import strftime
@@ -159,14 +192,14 @@ def main():
     prog = 'ptest'
     lang = 'python'
     ext  = 'log'
-    def logname(test): return '%s-%s-%s.%s' % (prog, lang, test, ext)
-    tests = ['Loop', 'GCD', 'Factorial']
+    def logname(test): return '%s-%s-%s.%s' % (prog, lang, test.__name__.split('.')[-1], ext)
+    tests = [AdditionOfInt, AdditionOfLong, AdditionOfBigInt]
     # args_of_benches = [
     #         ('Loop', 100, 100),
     #         ('GCD',  100, 100),
     #         ('Factorial', 100, 100)
     #     ]
-    args_of_benches = [(test, 100, 100) for test in tests]
+    args_of_benches = [(test, 1, 1000) for test in tests]
     for b in args_of_benches:
         log = logname(b[0])
         print('Start tests: %s\n' % log)
@@ -175,7 +208,7 @@ def main():
         with open(log, 'a') as f: f.write('End tests:   %s\n' % now())
         print('End test:    %s\n' % log)
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
 
 
