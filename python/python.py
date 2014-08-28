@@ -5,23 +5,61 @@
 # Date  :  2014-08-23
 
 
-def benchmark(test, repeat=1, number=1):
-    from timeit import repeat as benchmarker
-    setup = 'from __main__ import %s' % test #'; '.join(setups)
-    testf = test + '.test'
-    params = eval(test + '.params()')
-    for param in params:
-        sample = '%s(%s)' % (testf, param)
-        best_time = min(benchmarker(sample, setup=setup, repeat=repeat, number=number))
-        yield (test, best_time, number, param)
-
 class Test:
+    @staticmethod
+    def name(): pass
+    @staticmethod
+    def subject(): pass
+    @staticmethod
+    def object(): pass
     @staticmethod
     def test(param): pass
     @staticmethod
     def params(): pass
 
+class Addition(Test):
+
+    @staticmethod
+    def subject(): return 'Python 2.7.6'
+
+    @staticmethod
+    def test((a, b)):
+        return a + b
+
+
+class AdditionOfInts(Addition):
+
+    @staticmethod
+    def name(): return 'Addition of ints'
+
+    @staticmethod
+    def object(): return 'Int addition'
+
+    @staticmethod
+    def params():
+        data = [
+            (1, 0),
+            (1, 1),
+            (3, -5),
+            (101, 42),
+            (42, 101),
+            (1<<10,1<<20),
+            ((1<<10) - 1,(1<<20) - 1),
+            (2702765, 199360981)
+        ]
+        return map(lambda (a, b): (int(a), int(b)), data)
+
+        
 class Loop(Test):
+
+    @staticmethod
+    def name(): return 'Loop'
+
+    @staticmethod
+    def subject(): return 'Python lang for-loops (python 2.7.6)'
+
+    @staticmethod
+    def object(): return 'Arithmetic operations: addition, division with reminders, bitwise xor'
 
     @staticmethod
     def test(param):
@@ -38,6 +76,13 @@ class Loop(Test):
         return (1 << x for x in range(10, 16, 2))
 
 class GCD(Test):
+
+    @staticmethod
+    def name(): return 'GCD'
+    @staticmethod
+    def subject(): return 'gcd() from fractions library (python 2.7.6)' 
+    @staticmethod
+    def object(): return 'Calculate gcd(list of pairs)'
 
     @staticmethod
     def test(param):
@@ -61,6 +106,13 @@ class GCD(Test):
 class Factorial(Test):
 
     @staticmethod
+    def name(): return 'Factorial'
+    @staticmethod
+    def subject(): return 'factorial() from math library (python 2.7.6)'
+    @staticmethod
+    def object(): return 'Calculate factorial(n)'
+
+    @staticmethod
     def test(param):
         from math import factorial
         n = param
@@ -70,6 +122,18 @@ class Factorial(Test):
     @staticmethod
     def params():
         return xrange(2000, 10000 + 1, 2000)
+
+
+def benchmark(test, repeat=1, number=1):
+    from timeit import repeat as benchmarker
+    setup = 'from __main__ import %s' % test #'; '.join(setups)
+    testf = test + '.test'
+    params = eval(test + '.params()')
+    for param in params:
+        sample = '%s(%s)' % (testf, param)
+        best_time = min(benchmarker(sample, setup=setup, repeat=repeat, number=number))
+        yield (test, best_time, number, param)
+
 
 def log_benchmark(logname, bench_args):
     with open(logname, 'a') as log:
