@@ -4,5 +4,10 @@
 
 *.sublime*
 
+# Temp logs
+
+*/~log
+
 # Python
 python/*.py[cod]
+python/*/*.py[cod]

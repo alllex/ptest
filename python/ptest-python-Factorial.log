@@ -1,7 +1,0 @@
-Start tests: 2014-08-23 22:23:01
-[      100      ] runs of [   Factorial   ] took at best [  0.09753s  ] with parameter = [     2000      ]
-[      100      ] runs of [   Factorial   ] took at best [  0.37971s  ] with parameter = [     4000      ]
-[      100      ] runs of [   Factorial   ] took at best [  0.86541s  ] with parameter = [     6000      ]
-[      100      ] runs of [   Factorial   ] took at best [  1.52155s  ] with parameter = [     8000      ]
-[      100      ] runs of [   Factorial   ] took at best [  2.39388s  ] with parameter = [     10000     ]
-End tests:   2014-08-23 22:31:50

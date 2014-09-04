@@ -1,5 +1,0 @@
-Start tests: 2014-08-23 21:52:48
-[      100      ] runs of [     Loop      ] took at best [  0.01371s  ] with parameter = [     1024      ]
-[      100      ] runs of [     Loop      ] took at best [  0.47209s  ] with parameter = [     32768     ]
-[      100      ] runs of [     Loop      ] took at best [  15.24097s  ] with parameter = [    1048576    ]
-End tests:   2014-08-23 22:19:08
