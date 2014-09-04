@@ -18,12 +18,10 @@ from tests.string import *
 def benchmark(test_name, module_name, repeat=1, number=1):
     from timeit import repeat as benchmarker
     setup = 'from tests.%s import %s' % (module_name, test_name)
-    print(test_name)
-    print(setup)
-    testf = test_name + '.test'
+    test_func = test_name + '.test'
     params = eval(test_name + '.params()')
     for param in params:
-        sample = '%s(%s)' % (testf, param)
+        sample = '%s(*%s)' % (test_func, param)
         best_time = min(benchmarker(sample, setup=setup, repeat=repeat, number=number))
         yield (test_name, best_time, number, param)
 
@@ -139,7 +137,5 @@ def main():
 
 if __name__ == '__main__':
     main()
-    # from addition import AdditionOfInt
-    # print(AdditionOfInt.name())
 
 

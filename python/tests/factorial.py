@@ -4,7 +4,7 @@
 # Author:  alllex
 # Date  :  2014-09-04
 
-from test import PythonTest
+from test import PythonTest, get_data, int_data
 
 # -------------------------------------------------------
 #                     Factorial Tests
@@ -16,7 +16,7 @@ class Factorial(PythonTest):
 
     @staticmethod
     def params():
-        return range(1, 12)
+        return int_data(get_data('Factorial'))
 
 class FactorialByMathLib(Factorial):
 
