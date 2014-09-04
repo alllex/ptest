@@ -9,10 +9,16 @@
 #                     Print utils
 # -------------------------------------------------------
 
+folder_name = 'gen'
 file_ext = '.data'
 
+def create_folder(folder_name):
+    import os
+    if not os.path.exists(folder_name): os.makedirs(folder_name)
+
 def create_filename(test_name):
-    return test_name + file_ext
+    from os.path import join
+    return join(folder_name, test_name + file_ext)
 
 def print_samples(data_function):
     filename = create_filename(data_function.__name__)
@@ -27,12 +33,12 @@ def print_samples(data_function):
 #                 Grouped data for tests
 # -------------------------------------------------------
 
-from tests.addition import *
-from tests.factorial import *
-from tests.gcd import *
-from tests.loop import *
-from tests.multiplication import *
-from tests.string import *
+from addition import *
+from factorial import *
+from gcd import *
+from loop import *
+from multiplication import *
+from string import *
 
 all_samples = [
 
@@ -61,6 +67,7 @@ all_samples = [
 # -------------------------------------------------------
 
 def main():
+    create_folder(folder_name)
     for s in all_samples: print_samples(s)
 
 if __name__ == '__main__':

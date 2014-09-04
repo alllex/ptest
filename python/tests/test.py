@@ -26,7 +26,7 @@ def get_data(test_name):
     def splitn(a, n): return zip(*[a[i::n] for i in range(n)])
     from os.path import join
     file_ext = '.data'
-    file_path = join('..', '.', '.', 'data', test_name + file_ext)
+    file_path = join('data', 'gen', test_name + file_ext) #join('..', '.', '.', 'data', 'gen', test_name + file_ext)
     with open(file_path) as f:
         size = int(f.readline())
         samples = splitn(f.readlines(), size)

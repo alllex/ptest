@@ -1,16 +1,15 @@
 # Git ignore for ptest project
 
 # Sublime text
-
 *.sublime*
-
-# Temp logs
-
-*/~log
 
 # Python
 python/*.py[cod]
 python/*/*.py[cod]
 
 # Generating data
-data/*/*.py[cod]
+data/tools/*.py[cod]
+data/gen
+
+# Results
+results

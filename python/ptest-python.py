@@ -35,7 +35,7 @@ def log_benchmark(logname, bench_args):
             parameter = '{:^15}'.format(p)
             to_log = '[%s] runs of [%s] took at best [%s] with parameter = [%s]\n' % (runs_count, test_name, best_time, parameter)
             log.write(to_log)
-            print(to_log)
+            # print(to_log)
 
 def now():
     from time import strftime
@@ -43,11 +43,10 @@ def now():
     return datetime.now()
 
 def logname(test_name): 
-    folder = '~log'
-    prog = 'ptest'
+    folder = 'results'
     lang = PythonTest.subject()
     ext  = 'log'
-    return '%s/%s-%s-%s.%s' % (folder, prog, test_name, lang, ext)
+    return '%s/%s-%s.%s' % (folder, test_name, lang, ext)
 
 def tool_name():
     import sys
@@ -127,13 +126,16 @@ def main():
     tool = tool_name()
     for b in tests():
         log = logname(b[0])
-        print('Start test: %s (%s)\n' % (log, now()))
+        module_name = b[1]
+        test_name = b[0]
+        print('Test  : [%s] %s' % (module_name, eval(test_name + '.name()')))
+        print('Start : %s' % now())
         with open(log, 'w+') as f: 
             f.write('%s\n' % tool)
             f.write('Start tests: %s\n' % now())
         log_benchmark(log, b)
         with open(log, 'a') as f: f.write('End tests:   %s\n' % now())
-        print('End test: %s (%s)\n' % (log, now()))
+        print('End   : %s' % now())
 
 if __name__ == '__main__':
     main()
