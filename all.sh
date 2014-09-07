@@ -21,7 +21,10 @@ fi
 echo Run all tests
 
 # Python
-. ./python/run.sh
+# . ./python/run.sh
+
+# Perl
+. ./perl/run.sh
 
 if [ ! $TEST_FAILED == "TRUE" ]; then
     echo "All tests successfully finished"
