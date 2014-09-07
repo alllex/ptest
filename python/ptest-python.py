@@ -35,7 +35,6 @@ def log_benchmark(logname, bench_args):
             parameter = '{:^15}'.format(p)
             to_log = '[%s] runs of [%s] took at best [%s] with parameter = [%s]\n' % (runs_count, test_name, best_time, parameter)
             log.write(to_log)
-            # print(to_log)
 
 def now():
     from time import strftime
@@ -57,9 +56,6 @@ def tool_name():
 # -------------------------------------------------------
 
 def tests():
-
-    def create_bunch(repeat, number, (module_name, test_classes)):
-        return [(t, module_name, repeat, number) for t in test_classes]
 
     fast = [
 
@@ -111,16 +107,22 @@ def tests():
     slow = [
     ]
 
-    default_repeat = 1
-    number_for_fast = 1000000
-    number_for_mid  = 10000
-    number_for_slow = 100
+    def create_bunch(repeat, number, (module_name, test_classes)):
+        return [(t, module_name, repeat, number) for t in test_classes]
+
+    with open('data/gen/prefs.data', 'r') as f:
+        repeat_fast = int(f.readline())
+        repeat_mid = int(f.readline())
+        repeat_slow = int(f.readline())
+        number_fast = int(f.readline())
+        number_mid = int(f.readline())
+        number_slow = int(f.readline())
 
     tests = []
-    for t in fast: tests += create_bunch(default_repeat, number_for_fast, t)
-    for t in mid: tests += create_bunch(default_repeat, number_for_mid, t)
-    for t in slow: tests += create_bunch(default_repeat, number_for_slow, t)
-    return tests # triples - (test class, repeat times, runs per repeat)
+    for t in fast: tests += create_bunch(repeat_fast, number_fast, t)
+    for t in mid: tests += create_bunch(repeat_mid, number_mid, t)
+    for t in slow: tests += create_bunch(repeat_slow, number_slow, t)
+    return tests # tuples - (test class, module name, repeat times, runs per repeat)
 
 def main():
     tool = tool_name()
