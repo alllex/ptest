@@ -12,8 +12,8 @@ TEST_FAILED=FALSE
 
 cd data
 . ./gen.sh
-
 cd ..
+
 if [ ! -d "$RES" ]; then
   mkdir "$RES"
 fi

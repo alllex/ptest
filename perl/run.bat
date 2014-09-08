@@ -3,10 +3,10 @@
 
 @echo off
 
-SET LANG=python
-SET EXT=py
+SET LANG=perl
+SET EXT=pl
 
-%LANG% --version 2>NUL
+%LANG% --version >NUL
 IF ERRORLEVEL 1 GOTO NOPYTHON 
 
 ECHO Run %LANG% tests...

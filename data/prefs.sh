@@ -8,9 +8,9 @@ if [ $PTEST == "TRUE" ]; then
 
     PREFS_FILE="$GEN/$PREFS"
 
-    if [ ! -f "$PREFS_FILE" ] ; then
-        touch "$PREFS_FILE"
-    fi
+    # if [ ! -f "$PREFS_FILE" ] ; then
+    #     touch "$PREFS_FILE"
+    # fi
 
     echo "$REPEAT_FAST" >"$PREFS_FILE"
     echo "$REPEAT_MID" >>"$PREFS_FILE"

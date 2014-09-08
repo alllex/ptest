@@ -27,6 +27,7 @@ sub params {
     open (my $file, "<", "data/gen/AdditionOfInt.data") || die "Can't read file: $!";
     my @lines = <$file>;
     # TODO split arguments into chunks
+    # print @lines;
     close($file);
 }
 
