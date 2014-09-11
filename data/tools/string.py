@@ -23,8 +23,6 @@ def StringEquals():
 def StringConcat():
     alphabet100 = "abcdefghijklmnoprstuvwxyz" * 100
     data = [
-        ("abc" * 100, ""),
-        ("", "abc" * 100),
         ("xxx", "xxx"),
         (alphabet100, alphabet100[:]),
         (alphabet100, alphabet100[:] + "!"),
@@ -38,8 +36,6 @@ def StringFind():
     alphaZ = "xyZ"
     alphabet100 = alphabet * 100
     data = [
-        ("abc" * 100, ""),
-        ("", "abc" * 100),
         ("xxx", "xxx"),
         (alphabet100, alphabet),
         (alphabet100, alphaZ),
@@ -56,7 +52,6 @@ def StringReplace():
         ("abc" * 100, "abc", "xxx"),
         ("abc" * 100, "abca", "xxx"),
         ("abc" * 100, "abcx", "xxx"),
-        ("", "abc" * 100, "x"),
         ("xxx", "xxx", "xxx"),
         (alphabet100 + "?", "!", "x"),
         (alphabet100 + "?" + alphabet100[:], "?", "x")

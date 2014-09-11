@@ -24,10 +24,11 @@ def print_samples(data_function):
     filename = create_filename(data_function.__name__)
     data = data_function()
     with open(filename, 'w+') as f: 
-        f.write('%s\n' % len(data[0]))
+        # f.write('%s\n' % len(data[0]))
         for sample in data:
             for piece in sample:
-                f.write('%s\n' % str(piece)) 
+                f.write('%s ' % str(piece)) 
+            f.write('\n')
     
 # -------------------------------------------------------
 #                 Grouped data for tests
