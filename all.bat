@@ -21,10 +21,10 @@ IF NOT EXIST %RES% MD %RES%
 ECHO Run all tests
 
 :: Python
-:: CALL "python/run.bat"
+CALL "python/run.bat"
 
 :: Perl
-CALL "perl/run.bat"
+:: CALL "perl/run.bat"
 
 IF "%TEST_FAILED" == "FALSE" (
     ECHO All tests successfully finished
