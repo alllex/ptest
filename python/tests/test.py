@@ -20,14 +20,21 @@ class PythonTest(Test):
     @staticmethod
     def subject():
         import sys
-        return 'python-%s' % (sys.version.split()[0])
+        return 'python-v%s' % (sys.version.split()[0])
+
+def get_prefs():
+    from os.path import join
+    file_ext = '.data'
+    file_path = join('data', 'gen', 'prefs' + file_ext)
+    with open(file_path, 'r') as f:
+        return map(lambda p: int(p), f.readlines())
 
 def get_data(test_name):
     # def splitn(a, n): return zip(*[a[i::n] for i in range(n)])
     from os.path import join
     file_ext = '.data'
     file_path = join('data', 'gen', test_name + file_ext)
-    with open(file_path) as f:
+    with open(file_path, 'r') as f:
         # size = int(f.readline())
         samples = [tuple(line.split()) for line in f]
     return samples
