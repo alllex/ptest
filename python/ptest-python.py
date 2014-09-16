@@ -16,7 +16,7 @@ from tests.string import *
 #                     Benchmark utils
 # -------------------------------------------------------
 
-def benchmark(test_name, module_name, repeat=1, number=1):
+def benchmark(module_name, test_name, repeat, number):
     from timeit import repeat as benchmarker
     setup = 'from tests.%s import %s' % (module_name, test_name)
     test_func = test_name + '.test'
@@ -56,27 +56,41 @@ def log_benchmark(bench_args):
     diff = str(finish_time - start_time)
     logname = mk_logname(test_name)
 
+    repeat = '{:^3}'.format(rep)
+    number = '{:^9}'.format(num)
+    test_name = '{:^20}'.format(test_name)
+    count = '{:^3}'.format(len(timed))
+
+    title = 'Test case({t}): repeat({r}) of number({n})\nAll {c} tests took about {total} to process'.format(
+        t=test_name, r=repeat, n=number, total=diff, c=count
+    )
+
     with open(logname, 'a') as log:
-        repeat = '{:^3}'.format(rep)
-        number = '{:^9}'.format(num)
-        test_name = '{:^20}'.format(test_name)
 
         log.write('{0}\n'.format(tool_name()))
-        to_log = 'Test case({t}): repeat({r}) of number({n})\nAll {count} tests took about {total} to process'.format(
-            t=test_name, r=repeat, n=number, total=diff, count='{:^3}'.format(len(timed))
-        )
-        log.write(to_log + "\n")
-        print(to_log)
+        log.write(title + "\n")
+        print(title)
 
         for bt, p in timed:
-            to_log = '{bt} // {p}'.format(bt='{:0.5f}'.format(bt), p=p)
-            log.write(to_log + "\n")
+            test_log = '{bt} // {p}'.format(bt='{:8.5f}'.format(bt), p=p)
+            log.write(test_log + "\n")
 
 # -------------------------------------------------------
 #                   Test compilation
 # -------------------------------------------------------
 
 def tests():
+
+    def mk_bunch(repeat, number, (module_name, test_classes)):
+        return [(module_name, t, repeat, number) for t in test_classes]
+
+    prefs = get_prefs()
+    repeat_fast = prefs[0]
+    repeat_mid  = prefs[1]
+    repeat_slow = prefs[2]
+    number_fast = prefs[3]
+    number_mid  = prefs[4]
+    number_slow = prefs[5]
 
     fast = [
 
@@ -128,22 +142,11 @@ def tests():
     slow = [
     ]
 
-    def mk_bunch(repeat, number, (module_name, test_classes)):
-        return [(t, module_name, repeat, number) for t in test_classes]
-
-    prefs = get_prefs()
-    repeat_fast = prefs[0]
-    repeat_mid  = prefs[1]
-    repeat_slow = prefs[2]
-    number_fast = prefs[3]
-    number_mid  = prefs[4]
-    number_slow = prefs[5]
-
     tests = []
     for t in fast: tests += mk_bunch(repeat_fast, number_fast, t)
     for t in mid: tests += mk_bunch(repeat_mid, number_mid, t)
     for t in slow: tests += mk_bunch(repeat_slow, number_slow, t)
-    return tests # tuples - (test class, module name, repeat times, runs per test)
+    return tests # tuples - (module name, test class, repeat times, runs per test)
 
 # -------------------------------------------------------
 #                     Test runner
