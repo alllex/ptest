@@ -19,12 +19,9 @@ use perl::tests::test;
 
 $VERSION     = 1.00;
 @ISA         = qw(Exporter);
-@EXPORT      = qw(&test &params);
-@EXPORT_OK   = qw(test params);
+@EXPORT      = qw(&test);
+@EXPORT_OK   = qw(test);
 
 sub test { $_[0] + $_[1] }
-sub params {
-    get_data('AdditionOfInt');
-}
 
 1;

@@ -31,12 +31,10 @@ sub get_prefs {
 }
 
 sub get_data ($) {
-    my $test_name = $_[0];
+    my $test_name = shift;
     my $file_name = "data/gen/$test_name.data";
     open (my $file, "<", $file_name) || die "Can't read file: $!";
     map [ split ], <$file>;
 }
-
-
 
 1;
