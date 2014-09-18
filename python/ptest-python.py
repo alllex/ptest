@@ -25,7 +25,8 @@ def benchmark(module_name, test_name, repeat, number):
     for param in params:
         sample = '%s(*%s)' % (test_func, param)
         best_time = min(benchmarker(sample, setup=setup, repeat=repeat, number=number))
-        timed.append((best_time, param))
+        res = eval(sample)
+        timed.append((best_time, param, res))
     return (
         test_name,
         repeat,
@@ -65,14 +66,14 @@ def log_benchmark(bench_args):
         t=test_name, r=repeat, n=number, total=diff, c=count
     )
 
-    with open(logname, 'a') as log:
+    with open(logname, 'w') as log:
 
         log.write('{0}\n'.format(tool_name()))
         log.write(title + "\n")
         print(title)
 
-        for bt, p in timed:
-            test_log = '{bt} // {p}'.format(bt='{:8.5f}'.format(bt), p=p)
+        for bt, p, r in timed:
+            test_log = '{bt} // f{p} = {r}'.format(bt='{:8.5f}'.format(bt), p=p, r=r)
             log.write(test_log + "\n")
 
 # -------------------------------------------------------
@@ -108,13 +109,6 @@ def tests():
             ]
         ),
 
-        ('gcd', [
-                'GCDByFractionsLib', 
-                'GCDByRecursiveImpl', 
-                'GCDByLoopImpl'
-            ]
-        ),
-
         ('string', [
                 'StringEquals', 
                 'StringConcat', 
@@ -125,21 +119,35 @@ def tests():
     ]
     mid = [
 
+        ('factorial', [
+                'FactorialByMathLib', 
+                'FactorialByRec', 
+                'FactorialByLoop'
+            ]
+        ),
+
+        ('factorial', [
+                'FactorialBigByMathLib', 
+                'FactorialBigByRec', 
+                'FactorialBigByLoop'
+            ]
+        ),
+
+        ('gcd', [
+                'GCDByFractionsLib', 
+                'GCDByRec', 
+                'GCDByLoop'
+            ]
+        )
+    ]
+    slow = [
+
         ('loop', [
                 'LoopByXRange', 
                 'LoopByRange', 
                 'LoopByWhile'
             ]
-        ),
-
-        ('factorial', [
-                'FactorialByMathLib', 
-                'FactorialByRecursiveImpl', 
-                'FactorialByLoopImpl'
-            ]
         )
-    ]
-    slow = [
     ]
 
     tests = []
