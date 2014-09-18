@@ -24,7 +24,7 @@ ECHO Run all tests
 CALL "python/run.bat"
 
 :: Perl
-:: CALL "perl/run.bat"
+CALL "perl/run.bat"
 
 IF "%TEST_FAILED" == "FALSE" (
     ECHO All tests successfully finished

@@ -7,8 +7,8 @@ if [ $PTEST == "TRUE" ]; then
     REPEAT_SLOW=1
 
     NUMBER_FAST=1000000
-    NUMBER_MID=10000
-    NUMBER_SLOW=100
+    NUMBER_MID=100000
+    NUMBER_SLOW=1000
 
     cd data
     . ./prefs.sh
