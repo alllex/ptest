@@ -29,7 +29,7 @@ class GCDByFractionsLib(GCD):
         from fractions import gcd
         return gcd(a, b)
 
-class GCDByRecursiveImpl(GCD):
+class GCDByRec(GCD):
 
     @staticmethod
     def name(): return 'GCD by recursive implementation'
@@ -41,7 +41,7 @@ class GCDByRecursiveImpl(GCD):
             else: return gcd(b, a % b)
         return gcd(a, b)
 
-class GCDByLoopImpl(GCD):
+class GCDByLoop(GCD):
 
     @staticmethod
     def name(): return 'GCD by while-loop implementation'
